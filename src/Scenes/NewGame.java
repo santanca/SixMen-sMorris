@@ -1,7 +1,11 @@
 package Scenes;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.util.Random;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import Buttons.Piece;
 import GameLogic.Logic;
@@ -16,6 +20,7 @@ import javafx.scene.text.Text;
 
 public class NewGame extends ScreenScene {
 	private Piece[] gamePieces;
+	private int currentPlayer = 0;
 	private Logic gameLogic;
 	private Text text;
 	protected int currentState;
@@ -36,11 +41,39 @@ public class NewGame extends ScreenScene {
 	}
 
 	public NewGame(File file) {
-
-		setBoard();
-		addButtons();
-	}
-	private void loadBoard(File file){
+		resetBoard();
+		finishSetup();
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+		    String line;
+		    String[] lineArray;
+		    while ((line = br.readLine()) != null) {
+		       lineArray = line.split(",");
+		       if (lineArray.length == 1){
+		    	   currentPlayer = Integer.parseInt(line);
+		       }else{
+		    	   for (int i = 0; i < gamePieces.length; i ++){
+		    		   System.out.print(lineArray[i]);
+		    		   gamePieces[i].setColor(lineArray[i].charAt(0));
+		    		   if (i >= 16){
+		    			   if (gamePieces[i].getColor() != ' '){
+		    				   gamePieces[i].setSetup(true);
+		    				   for (int j = 0; j < 16; j ++){
+		    					   gamePieces[j].setSetup(true);
+		    				   }
+		    			   }
+		    		   }
+		    	   }
+		       }
+		    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		 System.out.println(currentPlayer);
+		if (currentPlayer == 0){
+			redTurn();
+		}else{
+			blueTurn();
+		}
 
 	}
 	public void setPieces(Piece[] pieces) {
@@ -206,11 +239,13 @@ public class NewGame extends ScreenScene {
 						setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");
 						blueTurn();
 						setMovedFalse();
+						gameLogic.setNewState(gamePieces);
 						break;
 					case 9:
 						setGameStateText("Red Player's Turn - SETUP PHASE  - DRAG PIECES");
 						redTurn();
 						setMovedFalse();
+						gameLogic.setNewState(gamePieces);
 						break;
 					}
 					break;
@@ -251,6 +286,7 @@ public class NewGame extends ScreenScene {
 
 	protected void redTurn() {
 		currentState = 8;
+		currentPlayer = 0;
 		for (Piece t : gamePieces) {
 			if (t.getColor() == 'B') {
 				t.setDisable(true);
@@ -293,6 +329,7 @@ public class NewGame extends ScreenScene {
 
 	protected void blueTurn() {
 		currentState = 9;
+		currentPlayer = 1;
 		for (Piece t : gamePieces) {
 			if (t.getColor() == 'R') {
 				t.setDisable(true);
@@ -400,26 +437,18 @@ public class NewGame extends ScreenScene {
 
 	@Override
 	protected void addButtons() {
-		/*Button new1 = new Button("NEW GAME");
-		new1.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				resetBoard();
-			}
-		});
-		new1.setLayoutX(245 - 160);
-		new1.setLayoutY(550);
-		new1.setMinHeight(50);
-		new1.setMinWidth(150);
-		new1.setStyle(
-				"-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-		this.getChildren().add(new1);
-	*/
 		Button Save = new Button("SAVE GAME");
 		Save.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				currentState = 13;
+				// 8 - Red TURN
+				// 9 - Blue TURN
+				if (currentState == 8){
+					currentState = 13;
+				}else if (currentState == 9){
+					currentState = 13;
+				}
+
 			}
 		});
 		Save.setLayoutX(245);
@@ -465,7 +494,27 @@ public class NewGame extends ScreenScene {
 
 	@Override
 	public void saveFile(File file) {
-		// TODO Auto-generated method stub
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
+			String s = Integer.toString(currentPlayer);
+			bw.write(s);
+			bw.newLine();
+			for (int i = 0 ; i < gamePieces.length; i ++){
+				if (i != gamePieces.length - 1){
+					bw.write(gamePieces[i].getColor() + ",");
+				}else{
+					bw.write(gamePieces[i].getColor());
+				}
+			}
+			bw.newLine();
+			bw.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			System.out.println(currentState);
+		}
 
 	}
 

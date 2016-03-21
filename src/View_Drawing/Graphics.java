@@ -51,7 +51,7 @@ public class Graphics extends Application {
 				case 2: // LOADS GAME FROM FILE CHOOSER
 					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle("Open Resource File");
-					fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Six Men Morris File", (".smm")));
+					//fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Six Men Morris File", (".smm")));
 					Stage nS = new Stage();
 					File file = fileChooser.showOpenDialog(nS);
 					if (file == null) {
@@ -96,23 +96,21 @@ public class Graphics extends Application {
 				case 13:
 					FileChooser fileChooser2 = new FileChooser();
 					fileChooser2.setTitle("Save Resource File");
-					fileChooser2.getExtensionFilters().add(new FileChooser.ExtensionFilter("Six Men Morris File", (".smm")));
 					Stage nS2 = new Stage();
 					File file2 = fileChooser2.showSaveDialog(nS2);
 					if (file2 == null) {
-						nS2.close();
+						nS2.hide();
+						currentScene.setState(12);
+						currentState = 12;
+						primaryStage.show();
+
+					} else {
+						nS2.hide();
 						currentScene.saveFile(file2);
 						currentScene.setState(12);
 						currentState = 12;
-
-					} else {
-						nS2.close();
-						currentScene.saveFile(file2);
-						primaryStage.setScene(currentScene.getScreen());
 						primaryStage.show();
-						currentState = 12;
 					}
-					currentScene.saveFile(file2);
 				}
 
 			}

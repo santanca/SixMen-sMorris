@@ -108,62 +108,62 @@ public class Piece extends Circle {
 
 	}
 
-	public int getLoc() {
+	public int getLoc() {										//getter for the Loc varaible
 		return currentLoc;
 	}
 
-	public int getPrevLoc() {
+	public int getPrevLoc() {									//getter for the PrevLoc varaible 
 		return prevLoc;
 	}
 
-	public void setRemovePiece(boolean n) {
+	public void setRemovePiece(boolean n) {							//setter for the remove piece varaiable
 		removePiece = n;
 	}
 
-	public boolean getRemovePiece() {
+	public boolean getRemovePiece() {								//getter for the remove piece varaible
 		return removePiece;
 	}
 
-	public void setPrevLoc(int lc) {
+	public void setPrevLoc(int lc) {							//setter for the PrevLoc variable
 		prevLoc = lc;
 	}
 
-	public boolean isEmpty() {
+	public boolean isEmpty() {									//getter for the empty varaible
 		return empty;
 	}
 
-	public char getColor() {
+	public char getColor() {								//getter for the color varaible
 		return color;
 	}
 
-	public boolean getMoved() {
+	public boolean getMoved() {							//getter for the move varaiable 
 		return moved;
 	}
 
-	public void setSetup(boolean n) {
+	public void setSetup(boolean n) {					//setter for the setup Phase varable
 		setupPhase = n;
 	}
 
-	public boolean getSetupPhase() {
+	public boolean getSetupPhase() {			//getter for the setup Phase varable
 		return setupPhase;
 	}
 
-	public void setMoved(boolean move) {
+	public void setMoved(boolean move) {					//setter for the move varaiable 
 		moved = move;
 	}
 
-	public void setColor(char c) {
-		color = c;
-		switch (c) {
-		case 'B':
+	public void setColor(char c) {					//color setter
+		color = c;									
+		switch (c) {								//switch using the parameter
+		case 'B':									//if the color is blue its umempty and color is set to blue
 			empty = false;
 			setFill(Color.BLUE);
 			break;
-		case 'R':
+		case 'R':									//if the color is red its umempty and color is set to red
 			empty = false;
 			setFill(Color.RED);
 			break;
-		case ' ':
+		case ' ':									//if the color is null its empty and color is set to null
 			empty = true;
 			setFill(Color.BLACK);
 			break;

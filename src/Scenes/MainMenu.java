@@ -15,38 +15,38 @@ public class MainMenu extends ScreenScene{
 	private int currentState;
 
 
-	public MainMenu(){
-		currentState = 0;
+	public MainMenu(){			//constructor
+		currentState = 0;			//set up the current state
 		Canvas canvas = new Canvas(800, 450);			//set the canvas
 		getChildren().add(canvas);							//add to the canvas
 		GraphicsContext gc = canvas.getGraphicsContext2D();		//make the canvas
-		addButtons();
-		Text t = new Text();
-		t.setText("Six Men's Morris");
-		t.setFont(Font.font ("Verdana", 40));
-		t.setFill(Color.RED);
-		t.setX(240 - 2.5);
+		addButtons();										//add buttons
+		Text t = new Text();			//new text 
+		t.setText("Six Men's Morris");			//set the text 
+		t.setFont(Font.font ("Verdana", 40));		//set the font 
+		t.setFill(Color.RED);						//set the text color
+		t.setX(240 - 2.5);							//set the position
 		t.setY(75);
-		this.getChildren().add(t);
-		this.setPane();
+		this.getChildren().add(t);					//add childern
+		this.setPane();								//set the pane
 	}
-	public void animate(){
+	public void animate(){	
 
 	}
 	public int getState(){
-		return currentState;
+		return currentState;					//return the current state
 	}
 	@Override
 	public Scene getScreen() {
-		return (new Scene(getPane(), 800, 450));
+		return (new Scene(getPane(), 800, 450));			//return the scene
 	}
 	@Override
 	public void setState(int state) {
-		currentState = state;
+		currentState = state;					//set the state according to the parameter
 
 	}
 	@Override
-	protected void addButtons() {
+	protected void addButtons() {				
 		Button play = new Button("PLAY GAME");
 		play.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {

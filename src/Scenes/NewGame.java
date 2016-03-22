@@ -1,6 +1,6 @@
 package Scenes;
 
-import java.io.BufferedReader;
+import java.io.BufferedReader;											//import java libraries
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -19,11 +19,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class NewGame extends ScreenScene {
-	private Piece[] gamePieces;
-	private int currentPlayer = 0;
-	private Logic gameLogic;
-	private Text text;
-	protected int currentState;
+	private Piece[] gamePieces;												//private array of game pieces
+	private int currentPlayer = 0;											//current player intailzed to 0
+	private Logic gameLogic;												//private game logic object
+	private Text text;														//new text
+	protected int currentState;												//current state
 	// 5 - SET BOARD, NOT GAMEPLAY
 	// 6 - Load Game
 	// 7 - Setup Phase
@@ -34,31 +34,31 @@ public class NewGame extends ScreenScene {
 	// 12 - Main Menu
 	// 13 - SAVE GAME
 
-	public NewGame() {
+	public NewGame() {				//new game method
 
-		resetBoard();
+		resetBoard();				//resets the board
 
 	}
 
-	public NewGame(File file) {
-		resetBoard();
-		finishSetup();
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    String line;
-		    String[] lineArray;
-		    while ((line = br.readLine()) != null) {
-		       lineArray = line.split(",");
-		       if (lineArray.length == 1){
-		    	   currentPlayer = Integer.parseInt(line);
-		       }else{
-		    	   for (int i = 0; i < gamePieces.length; i ++){
-		    		   System.out.print(lineArray[i]);
-		    		   gamePieces[i].setColor(lineArray[i].charAt(0));
-		    		   if (i >= 16){
-		    			   if (gamePieces[i].getColor() != ' '){
-		    				   gamePieces[i].setSetup(true);
-		    				   for (int j = 0; j < 16; j ++){
-		    					   gamePieces[j].setSetup(true);
+	public NewGame(File file) {													//new game that takes in a file parameter
+		resetBoard();															//reset the board 
+		finishSetup();															//finish the setup
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {		//try buffer reader 
+		    String line;															//string line for the save file
+		    String[] lineArray;														//line for different states
+		    while ((line = br.readLine()) != null) {								//read the file
+		       lineArray = line.split(",");											//save the states
+		       if (lineArray.length == 1){											//if the array line array is one
+		    	   currentPlayer = Integer.parseInt(line);							//that is the player state
+		       }else{																//else
+		    	   for (int i = 0; i < gamePieces.length; i ++){					//loop through the game pieces
+		    		   System.out.print(lineArray[i]);								//print out all the pieces states
+		    		   gamePieces[i].setColor(lineArray[i].charAt(0));				//set the colors according to the states
+		    		   if (i >= 16){												//if i is greater than or equal to 16 
+		    			   if (gamePieces[i].getColor() != ' '){					//make the player color equal nothing
+		    				   gamePieces[i].setSetup(true);						//set up the setup
+		    				   for (int j = 0; j < 16; j ++){						//loop amount of times of the amount of pieces
+		    					   gamePieces[j].setSetup(true);					//set up the pieces
 		    				   }
 		    			   }
 		    		   }
@@ -68,80 +68,80 @@ public class NewGame extends ScreenScene {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		 System.out.println(currentPlayer);
-		if (currentPlayer == 0){
+		 System.out.println(currentPlayer);							//print out the current player
+		if (currentPlayer == 0){									//retuns what the player is
 			redTurn();
 		}else{
 			blueTurn();
 		}
 
 	}
-	public void setPieces(Piece[] pieces) {
-		for (Piece p : gamePieces) {
-			this.getChildren().remove(p);
+	public void setPieces(Piece[] pieces) {						//sets the pieces
+		for (Piece p : gamePieces) {							//loop through the amount of game pieces
+			this.getChildren().remove(p);						//get childern and remove pieces
 		}
-		gamePieces = pieces;
-		for (Piece p : gamePieces) {
-			this.getChildren().add(p);
+		gamePieces = pieces;									//game pieces us set to pieces
+		for (Piece p : gamePieces) {							//loop through the amount of game p
+			this.getChildren().add(p);							//adds childern 
 		}
 	}
 
-	private void startSetup() {
-		for (Piece p : gamePieces) {
-			p.setSetup(true);
+	private void startSetup() {									
+		for (Piece p : gamePieces) {						//loops through the amount of game pieces
+			p.setSetup(true);								//set up the pieces
 		}
 	}
 
 	private void redMill() {
-		for (Piece t : gamePieces) {
-			t.setRemovePiece(true);
-			if (t.getColor() == 'B') {
-				t.setDisable(false);
-			} else if (t.getColor() == 'R') {
-				t.setDisable(true);
+		for (Piece t : gamePieces) {						//loop through the amount of pieces
+			t.setRemovePiece(true);							//remoove the piece
+			if (t.getColor() == 'B') {						//if the color of the piece is blue
+				t.setDisable(false);						//enable the pieces 
+			} else if (t.getColor() == 'R') {						//else if the piece is red
+				t.setDisable(true);								//enable the red piece 
 			}
 		}
 	}
 
 	private void blueMill() {
-		for (Piece t : gamePieces) {
-			t.setRemovePiece(true);
-			if (t.getColor() == 'R') {
-				t.setDisable(false);
-			} else if (t.getColor() == 'B') {
-				t.setDisable(true);
+		for (Piece t : gamePieces) {					//loop through the game pieces
+			t.setRemovePiece(true);						//remove the piece
+			if (t.getColor() == 'R') {					//if the color is red
+				t.setDisable(false);					//enable the piece
+			} else if (t.getColor() == 'B') {			//if the color is blue
+				t.setDisable(true);						//disable the piece
 			}
 		}
 	}
 
-	private boolean checkRemove() {
-		for (Piece p : gamePieces) {
-			if (p.getRemovePiece() == false)
-				return false;
-		}
-		return true;
+	private boolean checkRemove() {				
+		for (Piece p : gamePieces) {				//loop through the amount of game pieces
+			if (p.getRemovePiece() == false)			//if remove piece is false
+				return false;							//return false
+		}	
+		return true;					//retrun true
 	}
 
 	private void removeRemove() {
-		for (Piece p : gamePieces) {
-			if (p.getRemovePiece() == true)
-				p.setRemovePiece(false);
+		for (Piece p : gamePieces) {		//loop through the amount of pieces
+			if (p.getRemovePiece() == true)			//if remove piece is true
+				p.setRemovePiece(false);				//remove piece is false
 		}
 	}
 
 	protected void finishSetup() {
-		for (Piece p : gamePieces) {
-			p.setSetup(false);
+		for (Piece p : gamePieces) {			//loop through the amount of pieces
+			p.setSetup(false);						//set the setup is false
 		}
 	}
 
 	private boolean isSetup() {
-		for (int i = 16; i < gamePieces.length; i++) {
-			if (gamePieces[i].getSetupPhase()) {
-				return true;
+		for (int i = 16; i < gamePieces.length; i++) {				//loop throught the amount of pieces
+			if (gamePieces[i].getSetupPhase()) {						//if the game pieces is the  set phase 
+				return true;								//return true
 			}
 		}
-		return false;
+		return false;				//else return false
 	}
 
 	public void animate() {
@@ -197,68 +197,68 @@ public class NewGame extends ScreenScene {
 						setMovedFalse();
 						gameLogic.setNewState(gamePieces);
 						break;
-					case 9:
-						setGameStateText("Red Player's Turn");
-						redTurn();
-						setMovedFalse();
-						gameLogic.setNewState(gamePieces);
+					case 9:															//case 9 
+						setGameStateText("Red Player's Turn");						//display message
+						redTurn();													//return red
+						setMovedFalse();											//set moved false
+						gameLogic.setNewState(gamePieces);							//set new state with the game logic and pieces
 						break;
 					}
 					break;
-				case 1:
-					System.out.println("Invalid move");
-					setPieces(gameLogic.getState());
+				case 1:															//case 1
+					System.out.println("Invalid move");							//invalid move
+					setPieces(gameLogic.getState());							//set the pieces using the gamelogic and game state
 					break;
-				case 2:
-					setGameStateText("RED PLAYER WINS");
-					disableAll();
-					break;
-				case 3:
-					setGameStateText("BLUE PLAYER WINS");
-					disableAll();
-					break;
-				case 4:
-					redMill();
-					setGameStateText("REMOVE A BLUE PIECE: Drag piece to one of the blue starting circles");
-					currentState = 11;
-					break;
-				case 5:
-					blueMill();
-					setGameStateText("REMOVE A RED PIECE: Drag piece to one of the red starting circles");
-					currentState = 10;
-					break;
+				case 2:											//case 2
+					setGameStateText("RED PLAYER WINS");				//display message
+					disableAll();						//disable all end the game
+					break;			
+				case 3:					//case 3
+					setGameStateText("BLUE PLAYER WINS");				//display message
+					disableAll();					//disable all end game
+					break;						
+				case 4:				//case 4
+					redMill();							//mill red
+					setGameStateText("REMOVE A BLUE PIECE: Drag piece to one of the blue starting circles");		//display message
+					currentState = 11;				//current state is 11 
+					break;						//break
+				case 5:					//case 5
+					blueMill();					//mill blue
+					setGameStateText("REMOVE A RED PIECE: Drag piece to one of the red starting circles"); 					//display message
+					currentState = 10;					//current state is 10
+					break;							//break
 				}
 
 			}
 		} else {
-			if (checkMoves()) {
-				switch (gameLogic.validMove(gamePieces, 0)) {
-				case 0:
-					switch (currentState) {
-					case 8:
-						setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");
-						blueTurn();
-						setMovedFalse();
-						gameLogic.setNewState(gamePieces);
-						break;
-					case 9:
-						setGameStateText("Red Player's Turn - SETUP PHASE  - DRAG PIECES");
-						redTurn();
-						setMovedFalse();
-						gameLogic.setNewState(gamePieces);
-						break;
+			if (checkMoves()) {						//if someone moves
+				switch (gameLogic.validMove(gamePieces, 0)) {		//swicth statement looks at the valid move
+				case 0:												//case 0
+					switch (currentState) {							//swicth according to current state
+					case 8:											//case 8
+						setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");			//display message
+						blueTurn();						//blues turn
+						setMovedFalse();						//set moves false
+						gameLogic.setNewState(gamePieces);			//sets new game board using the game logic and game pieces
+						break;				//break 
+					case 9:				//case 9 
+						setGameStateText("Red Player's Turn - SETUP PHASE  - DRAG PIECES");			//display message
+						redTurn();												//reds turn
+						setMovedFalse();										//set moved false
+						gameLogic.setNewState(gamePieces);							//sets new game board using the game logic and game pieces
+						break;				//break 
 					}
-					break;
-				case 4:
-					redMill();
-					setGameStateText("REMOVE A BLUE PIECE: Drag piece to one of the blue starting circles");
-					currentState = 11;
-					break;
-				case 5:
-					blueMill();
-					setGameStateText("REMOVE A RED PIECE: Drag piece to one of the red starting circles");
-					currentState = 10;
-					break;
+					break;			//break
+				case 4:								//case 4
+					redMill();							//mill red
+					setGameStateText("REMOVE A BLUE PIECE: Drag piece to one of the blue starting circles"); //messasge
+					currentState = 11;					//current state is 11 
+					break;					//break
+				case 5:					//case 5
+					blueMill();								//mill blue
+					setGameStateText("REMOVE A RED PIECE: Drag piece to one of the red starting circles");			//message to the screen
+					currentState = 10;																			//current state is 10
+					break;																						//break
 				}
 			}
 		}
@@ -266,58 +266,58 @@ public class NewGame extends ScreenScene {
 	}
 
 	public Piece[] getGamePieces() {
-		return gamePieces;
+		return gamePieces;				//return game pieces
 	}
 
-	protected boolean checkMoves() {
-		for (Piece t : gamePieces) {
-			if (t.getMoved() == true)
-				return true;
+	protected boolean checkMoves() {				
+		for (Piece t : gamePieces) {				//loop through the amount of pieces
+			if (t.getMoved() == true)			//if moved is equal to true
+				return true;				//return true
 		}
-		return false;
+		return false;					//return false
 	}
 
-	protected void setMovedFalse() {
-		for (Piece t : gamePieces) {
-			if (t.getMoved() == true)
-				t.setMoved(false);
+	protected void setMovedFalse() {	
+		for (Piece t : gamePieces) {						//loop through the amount of game pieces
+			if (t.getMoved() == true)						//if moved is equal to true
+				t.setMoved(false);							//set moved is false
 		}
 	}
 
-	protected void redTurn() {
-		currentState = 8;
-		currentPlayer = 0;
-		for (Piece t : gamePieces) {
-			if (t.getColor() == 'B') {
-				t.setDisable(true);
-			} else if (t.getColor() == 'R') {
-				t.setDisable(false);
+	protected void redTurn() {					//reds turn
+		currentState = 8;						//current state is 8
+		currentPlayer = 0;						//player is 0 
+		for (Piece t : gamePieces) {			//loop through the gamepieces
+			if (t.getColor() == 'B') {			//is the piece belongs to blue
+				t.setDisable(true);				//then disable the piece
+			} else if (t.getColor() == 'R') {	//else if the piece is red
+				t.setDisable(false);			//enable the piece
 			}
 		}
 	}
-	private void disableAll(){
-		for (Piece t : gamePieces) {
-			t.setDisable(true);
+	private void disableAll(){				//disable all
+		for (Piece t : gamePieces) {			//loop through the amount of pieces
+			t.setDisable(true);					//disable all pieces
 		}
 	}
-	private void enableAll(){
-		for (Piece t : gamePieces) {
-			t.setDisable(false);
+	private void enableAll(){					//enable all (helps start the game)
+		for (Piece t : gamePieces) {		//loop throught the amount of pieces
+			t.setDisable(false);			//all pieces are avaliable
 		}
 	}
-	protected void freeTurn() {
-		setGameStateText("PLACE PIECES FREELY");
-		currentState = 5;
-		for (Piece t : gamePieces) {
-			if (t.getColor() == 'B') {
-				t.setDisable(false);
-			} else if (t.getColor() == 'R') {
-				t.setDisable(false);
+	protected void freeTurn() {						//Logic for beginning phase of the game
+		setGameStateText("PLACE PIECES FREELY");	//text to the screen
+		currentState = 5;							//current state is 5
+		for (Piece t : gamePieces) {				//loop through the amount of game pieces
+			if (t.getColor() == 'B') {				//if the color is blue
+				t.setDisable(false);				//disavle the piece
+			} else if (t.getColor() == 'R') {		//else id the color is red
+				t.setDisable(false);				//disable the piece
 			}
 		}
 	}
 
-	protected void setGameStateText(String t) {
+	protected void setGameStateText(String t) {						//set the text position and size
 		this.getChildren().remove(text);
 		text = new Text(t);
 		text.setLayoutX(200);
@@ -328,26 +328,26 @@ public class NewGame extends ScreenScene {
 	}
 
 	protected void blueTurn() {
-		currentState = 9;
-		currentPlayer = 1;
-		for (Piece t : gamePieces) {
-			if (t.getColor() == 'R') {
-				t.setDisable(true);
-			} else if (t.getColor() == 'B') {
-				t.setDisable(false);
+		currentState = 9;										//current state is 9
+		currentPlayer = 1;											//current player is 1
+		for (Piece t : gamePieces) {				//loop through the amount of pieces 
+			if (t.getColor() == 'R') {				//set color to red
+				t.setDisable(true);							//disable the piece
+			} else if (t.getColor() == 'B') {				//else make the color blue  
+			t.setDisable(false);					//disable the piece
 			}
 		}
 	}
 
 	public void resetBoard() {
-		text = new Text("");
-		this.getChildren().add(text);
+		text = new Text("");					//new null text
+		this.getChildren().add(text);				//get childern and add text 
 		gamePieces = new Piece[16 + 12];
 		setBoard();
-		gamePieces[0] = new Piece(190, 90, 0);
+		gamePieces[0] = new Piece(190, 90, 0);				//set the game pieces on the board
 		gamePieces[1] = new Piece(390, 90, 1);
 		gamePieces[2] = new Piece(590, 90, 2);
-		gamePieces[3] = new Piece(590, 290, 3);
+		gamePieces[3] = new Piece(590, 290, 3);										//set the game pieces on the board
 		gamePieces[4] = new Piece(590, 490, 4);
 
 		gamePieces[5] = new Piece(390, 490, 5);
@@ -355,7 +355,7 @@ public class NewGame extends ScreenScene {
 		gamePieces[7] = new Piece(190, 290, 7);
 
 		gamePieces[8] = new Piece(290, 190, 8);
-		gamePieces[9] = new Piece(390, 190, 9);
+		gamePieces[9] = new Piece(390, 190, 9);									//set the game pieces on the board
 		gamePieces[10] = new Piece(490, 190, 10);
 		gamePieces[11] = new Piece(490, 290, 11);
 
@@ -363,27 +363,27 @@ public class NewGame extends ScreenScene {
 		gamePieces[13] = new Piece(390, 390, 13);
 
 		gamePieces[14] = new Piece(290, 390, 14);
-		gamePieces[15] = new Piece(290, 290, 15);
+		gamePieces[15] = new Piece(290, 290, 15);												//set the game pieces on the board
 
-		for (int i = 16; i < 16 + 6; i++) {
+		for (int i = 16; i < 16 + 6; i++) {									//sets up all the game pieces for the board
 			gamePieces[i] = new Piece(80, (125 + 40 * (i - 16)), i);
 			gamePieces[i].setColor('R');
 		}
-		for (int i = 16 + 6; i < 16 + 12; i++) {
+		for (int i = 16 + 6; i < 16 + 12; i++) {					//sets up all the game pieces for the board
 			gamePieces[i] = new Piece(700, (125 + 40 * (i - 16 - 6)), i);
 			gamePieces[i].setColor('B');
 		}
 		gameLogic = new Logic(gamePieces);
 		for (Piece t : gamePieces) {
-			this.getChildren().add(t);
+			this.getChildren().add(t);						//get childern and add piece
 		}
-		startSetup();
+		startSetup();					
 		addButtons();
-		if (Math.random() > 0.5) {
+		if (Math.random() > 0.5) {				//random numvber less than 0.5 reds turn 
 			redTurn();
-			setGameStateText("Red Player's Turn - SETUP PHASE  - DRAG PIECES");
+			setGameStateText("Red Player's Turn - SETUP PHASE  - DRAG PIECES");			//message on screen	
 		} else {
-			blueTurn();
+			blueTurn();						//else blues turn
 			setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");
 		}
 	}
@@ -464,9 +464,9 @@ public class NewGame extends ScreenScene {
 			@Override
 			public void handle(ActionEvent e) {
 				setState(12);
-			}
+			}																//set the page layout and the font and everything like that for the main home screen
 		});
-		main.setLayoutX(405);
+		main.setLayoutX(405);		
 		main.setLayoutY(550);
 		main.setMinHeight(50);
 		main.setMinWidth(150);
@@ -481,39 +481,39 @@ public class NewGame extends ScreenScene {
 				setState(4);
 			}
 		});
-		exit.setLayoutX(565);
+		exit.setLayoutX(565);							//set the page layout and the font and everything like that for the game screen 
 		exit.setLayoutY(550);
 		exit.setMinHeight(50);
 		exit.setMinWidth(150);
 		exit.setStyle(
 				"-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-		this.getChildren().add(exit);
+		this.getChildren().add(exit);						
 
 
 	}
 
 	@Override
-	public void saveFile(File file) {
-		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));
-			String s = Integer.toString(currentPlayer);
-			bw.write(s);
-			bw.newLine();
-			for (int i = 0 ; i < gamePieces.length; i ++){
-				if (i != gamePieces.length - 1){
-					bw.write(gamePieces[i].getColor() + ",");
-				}else{
-					bw.write(gamePieces[i].getColor());
+	public void saveFile(File file) { 			//save file that takes in a file
+		try {		//try 
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file, false));	//new buffer reader that creates a new file
+			String s = Integer.toString(currentPlayer);					//int converted into string
+			bw.write(s);												//write the string s repersents the current player
+			bw.newLine();												//new line
+			for (int i = 0 ; i < gamePieces.length; i ++){			//iterate over the game pieces
+				if (i != gamePieces.length - 1){					//if the length of the game pieces is not equal to i 
+					bw.write(gamePieces[i].getColor() + ",");		//write the state of the game pieces seperated by commas
+				}else{				//else
+					bw.write(gamePieces[i].getColor());			//write in the file the game pieces
 				}
 			}
-			bw.newLine();
-			bw.close();
+			bw.newLine();						//new line
+			bw.close();						//close the file
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e){
-			System.out.println(currentState);
+			System.out.println(currentState);			//prints out current state
 		}
 
 	}

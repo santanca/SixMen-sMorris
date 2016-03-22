@@ -10,14 +10,14 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Piece extends Circle {
-	private char color;
+public class Piece extends Circle {								//piece class extends Circle class
+	private char color;											//private varaibles needed for the impletentation of the adt
 	private boolean empty;
 	private int prevLoc, currentLoc;
 	private boolean moved, removePiece, setupPhase;
 
-	public Piece(Piece p) {
-		this(p.getLayoutX(), p.getLayoutY(), p.getLoc());
+	public Piece(Piece p) {									//constructor 
+		this(p.getLayoutX(), p.getLayoutY(), p.getLoc());	
 		moved = p.getMoved();
 		removePiece = p.getRemovePiece();
 		setupPhase = p.getSetupPhase();
@@ -26,23 +26,23 @@ public class Piece extends Circle {
 
 	}
 
-	public Piece(double x, double y, int loc) {
-		moved = false;
+	public Piece(double x, double y, int loc) {					//overloaded constructor
+		moved = false;											//set varaibles this is for starting up the game
 		removePiece = false;
 		setupPhase = false;
 		prevLoc = loc;
 		currentLoc = loc;
-		color = ' ';
+		color = ' ';									//set color to nothing
 		setColor(color);
 		empty = true;
 		setRadius(15);
-		setLayoutX(x + 10);
+		setLayoutX(x + 10);									//set the layout
 		setLayoutY(y + 10);
-		setStyle(
+		setStyle(						//set the style 
 				"-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-		this.setOnDragDetected(new EventHandler<MouseEvent>() {
+		this.setOnDragDetected(new EventHandler<MouseEvent>() {			//event handler for javafx 
 			public void handle(MouseEvent event) {
-				if (empty == false && (currentLoc >= 16 || !setupPhase || removePiece)) {
+				if (empty == false && (currentLoc >= 16 || !setupPhase || removePiece)) {					//starts a new game
 					Dragboard db = startDragAndDrop(TransferMode.ANY);
 					ClipboardContent content = new ClipboardContent();
 					content.putString("DRAG ME");

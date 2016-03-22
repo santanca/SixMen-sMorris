@@ -47,13 +47,13 @@ public class MainMenu extends ScreenScene{
 	}
 	@Override
 	protected void addButtons() {				
-		Button play = new Button("PLAY GAME");
-		play.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		        currentState = 1;
+		Button play = new Button("PLAY GAME");			//new button for play game
+		play.setOnAction(new EventHandler<ActionEvent>() {			//start the action event 
+		    @Override public void handle(ActionEvent e) {			//javafx event handler
+		        currentState = 1;								//current state is 1
 		    }
 		});
-		play.setLayoutX(340 - 2.5);
+		play.setLayoutX(340 - 2.5);			//set the layout for the button shape size and font 
 		play.setLayoutY(135);
 		play.setMinHeight(50);
 		play.setMinWidth(150);
@@ -65,30 +65,30 @@ public class MainMenu extends ScreenScene{
 
 		    }
 		});
-		load.setLayoutX(340 - 2.5);
+		load.setLayoutX(340 - 2.5);			//set the layout for the button shape size and font 
 		load.setLayoutY(205);
 		load.setMinHeight(50);
 		load.setMinWidth(150);
 		load.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-		Button set = new Button("SETUP GAME");
+		Button set = new Button("SETUP GAME");							//button for seting up the game
 		set.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		        currentState = 3;
+		        currentState = 3;						//current state is 3
 		    }
 		});
-		set.setLayoutX(340 - 2.5);
+		set.setLayoutX(340 - 2.5);						//set the layout for the button shape size and font 
 		set.setLayoutY(275);
 		set.setMinHeight(50);
 		set.setMinWidth(150);
 		set.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-		Button exit = new Button("EXIT GAME");
+		Button exit = new Button("EXIT GAME");						//button for exiting the game
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		        currentState = 4;
+		        currentState = 4;						//current state is 4
 		    }
 		});
 		exit.setLayoutX(340 - 2.5);
-		exit.setLayoutY(350);
+		exit.setLayoutY(350);							//set the layout for the button shape size and font 
 		exit.setMinHeight(50);
 		exit.setMinWidth(150);
 		exit.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");

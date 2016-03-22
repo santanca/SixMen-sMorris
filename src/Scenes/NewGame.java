@@ -145,14 +145,14 @@ public class NewGame extends ScreenScene {
 	}
 
 	public void animate() {
-		if (currentState == 11) {
-			if (isSetup()){
-				if (!checkRemove()){
-					removeRemove();
-					setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");
-					blueTurn();
-					setMovedFalse();
-					gameLogic.setNewState(gamePieces);
+		if (currentState == 11) {							//if the state is 11
+			if (isSetup()){										//if is setup is true
+				if (!checkRemove()){							//if not remove check is true
+					removeRemove();								//remove remove
+					setGameStateText("Blue Player's Turn - SETUP PHASE  - DRAG PIECES");				//display message
+					blueTurn();				//blue turn
+					setMovedFalse();						//set the moved false
+					gameLogic.setNewState(gamePieces);								//new game state using the game logic and the game pieces
 
 				}
 			}else{
@@ -393,7 +393,7 @@ public class NewGame extends ScreenScene {
 		getChildren().add(canvas); // add to the canvas
 		GraphicsContext gc = canvas.getGraphicsContext2D(); // make the canvas
 		drawBoard(gc); // draw the board
-		gc.setFill(Color.BLACK);
+		gc.setFill(Color.BLACK);			//set the color to black
 		Text t = new Text();
 		t.setText("Red Player");
 		t.setFont(Font.font("Verdana", 20));

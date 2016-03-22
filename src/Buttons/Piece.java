@@ -40,6 +40,7 @@ public class Piece extends Circle {
 		setLayoutY(y + 10);
 		setStyle(
 				"-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
+		// NEXT LARGE BLOB SETS UP DRAGGING BEHAVIOUR FOR THE BUTTONS, NEEDED TO BE IN CONSTRUCTOR
 		this.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				if (empty == false && (currentLoc >= 16 || !setupPhase || removePiece)) {
@@ -112,7 +113,7 @@ public class Piece extends Circle {
 		return currentLoc;
 	}
 
-	public int getPrevLoc() {									//getter for the PrevLoc varaible 
+	public int getPrevLoc() {									//getter for the PrevLoc varaible
 		return prevLoc;
 	}
 
@@ -136,7 +137,7 @@ public class Piece extends Circle {
 		return color;
 	}
 
-	public boolean getMoved() {							//getter for the move varaiable 
+	public boolean getMoved() {							//getter for the move varaiable
 		return moved;
 	}
 
@@ -148,12 +149,12 @@ public class Piece extends Circle {
 		return setupPhase;
 	}
 
-	public void setMoved(boolean move) {					//setter for the move varaiable 
+	public void setMoved(boolean move) {					//setter for the move varaiable
 		moved = move;
 	}
 
 	public void setColor(char c) {					//color setter
-		color = c;									
+		color = c;
 		switch (c) {								//switch using the parameter
 		case 'B':									//if the color is blue its umempty and color is set to blue
 			empty = false;

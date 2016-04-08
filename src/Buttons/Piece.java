@@ -10,14 +10,15 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Piece extends Circle {								//piece class extends Circle class
-	private char color;											//private varaibles needed for the impletentation of the adt
+public class Piece extends Circle { // piece class extends Circle class
+	private char color; // private varaibles needed for the impletentation of
+						// the adt
 	private boolean empty;
 	private int prevLoc, currentLoc;
 	private boolean moved, removePiece, setupPhase;
 
-	public Piece(Piece p) {									//constructor 
-		this(p.getLayoutX(), p.getLayoutY(), p.getLoc());	
+	public Piece(Piece p) { // constructor
+		this(p.getLayoutX(), p.getLayoutY(), p.getLoc());
 		moved = p.getMoved();
 		removePiece = p.getRemovePiece();
 		setupPhase = p.getSetupPhase();
@@ -40,12 +41,11 @@ public class Piece extends Circle {								//piece class extends Circle class
 		setLayoutY(y + 10);
 		setStyle(						//set the style 
 				"-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
-<<<<<<< HEAD
+
 		// NEXT LARGE BLOB SETS UP DRAGGING BEHAVIOUR FOR THE BUTTONS, NEEDED TO BE IN CONSTRUCTOR
-		this.setOnDragDetected(new EventHandler<MouseEvent>() {
-=======
+
 		this.setOnDragDetected(new EventHandler<MouseEvent>() {			//event handler for javafx 
->>>>>>> 1560f38df090ff2ba3ab602b82ef66091bc53b0c
+
 			public void handle(MouseEvent event) {
 				if (empty == false && (currentLoc >= 16 || !setupPhase || removePiece)) {					//starts a new game
 					Dragboard db = startDragAndDrop(TransferMode.ANY);
@@ -113,62 +113,63 @@ public class Piece extends Circle {								//piece class extends Circle class
 
 	}
 
-	public int getLoc() {										//getter for the Loc varaible
+	public int getLoc() { // getter for the Loc varaible
 		return currentLoc;
 	}
 
-	public int getPrevLoc() {									//getter for the PrevLoc varaible
+	public int getPrevLoc() { // getter for the PrevLoc varaible
 		return prevLoc;
 	}
 
-	public void setRemovePiece(boolean n) {							//setter for the remove piece varaiable
+	public void setRemovePiece(boolean n) { // setter for the remove piece
+											// varaiable
 		removePiece = n;
 	}
 
-	public boolean getRemovePiece() {								//getter for the remove piece varaible
+	public boolean getRemovePiece() { // getter for the remove piece varaible
 		return removePiece;
 	}
 
-	public void setPrevLoc(int lc) {							//setter for the PrevLoc variable
+	public void setPrevLoc(int lc) { // setter for the PrevLoc variable
 		prevLoc = lc;
 	}
 
-	public boolean isEmpty() {									//getter for the empty varaible
+	public boolean isEmpty() { // getter for the empty varaible
 		return empty;
 	}
 
-	public char getColor() {								//getter for the color varaible
+	public char getColor() { // getter for the color varaible
 		return color;
 	}
 
-	public boolean getMoved() {							//getter for the move varaiable
+	public boolean getMoved() { // getter for the move varaiable
 		return moved;
 	}
 
-	public void setSetup(boolean n) {					//setter for the setup Phase varable
+	public void setSetup(boolean n) { // setter for the setup Phase varable
 		setupPhase = n;
 	}
 
-	public boolean getSetupPhase() {			//getter for the setup Phase varable
+	public boolean getSetupPhase() { // getter for the setup Phase varable
 		return setupPhase;
 	}
 
-	public void setMoved(boolean move) {					//setter for the move varaiable
+	public void setMoved(boolean move) { // setter for the move varaiable
 		moved = move;
 	}
 
-	public void setColor(char c) {					//color setter
+	public void setColor(char c) { // color setter
 		color = c;
-		switch (c) {								//switch using the parameter
-		case 'B':									//if the color is blue its umempty and color is set to blue
+		switch (c) { // switch using the parameter
+		case 'B': // if the color is blue its umempty and color is set to blue
 			empty = false;
 			setFill(Color.BLUE);
 			break;
-		case 'R':									//if the color is red its umempty and color is set to red
+		case 'R': // if the color is red its umempty and color is set to red
 			empty = false;
 			setFill(Color.RED);
 			break;
-		case ' ':									//if the color is null its empty and color is set to null
+		case ' ': // if the color is null its empty and color is set to null
 			empty = true;
 			setFill(Color.BLACK);
 			break;

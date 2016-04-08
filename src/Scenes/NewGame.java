@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import Buttons.Piece;
+import GameLogic.AI;
 import GameLogic.Logic;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,10 +20,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class NewGame extends ScreenScene {
+	private AI AI;
 	private Piece[] gamePieces;												//private array of game pieces
 	private int currentPlayer = 0;											//current player intailzed to 0
 	private Logic gameLogic;												//private game logic object
 	private Text text;														//new text
+	private boolean ai;														// true = red, false = blue
 	protected int currentState;												//current state
 	// 5 - SET BOARD, NOT GAMEPLAY
 	// 6 - Load Game
@@ -39,7 +42,6 @@ public class NewGame extends ScreenScene {
 		resetBoard();				//resets the board
 
 	}
-
 	public NewGame(File file) {													//new game that takes in a file parameter
 		resetBoard();															//reset the board 
 		finishSetup();															//finish the setup
@@ -75,6 +77,9 @@ public class NewGame extends ScreenScene {
 			blueTurn();
 		}
 
+	}
+	public void setUpAI(){
+		AI = new AI();
 	}
 	public void setPieces(Piece[] pieces) {						//sets the pieces
 		for (Piece p : gamePieces) {							//loop through the amount of game pieces

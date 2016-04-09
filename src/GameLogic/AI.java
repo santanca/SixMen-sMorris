@@ -24,7 +24,9 @@ public class AI {
 		this.currentGame = currentGame;
 		updatePieces(currentGame);
 	}
-
+	public void setColor(boolean color){
+		this.color = color;
+	}
 	public void updatePieces(Piece[] gamePieces) {
 		currentGame = gamePieces;
 		compPieces = new ArrayList<Integer>();
@@ -52,10 +54,6 @@ public class AI {
 
 	public void placePiece() {
 
-	}
-
-	private boolean checkPossibleMills() {
-		return false;
 	}
 
 	private void checkSetup() {
@@ -215,9 +213,6 @@ public class AI {
 		return color;
 	}
 
-	public void updateBoard(Piece[] currentGame) {
-		this.currentGame = currentGame;
-	}
 
 	public void changeTurn() {
 		if (isTurn) {

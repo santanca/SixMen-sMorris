@@ -53,17 +53,31 @@ public class NewGame extends ScreenScene {
 
 	public NewGame(File file) { // new game that takes in a file parameter
 		resetBoard(false); // reset the board
-		finishSetup(); // finish the setup
+		finishSetup(); // finish the setup]
+		int counter = 0;
+		String a = "",  b = "",c = "";
+		
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) { // try
-																				// buffer
+																				// buffee
+																				// //
 																				// reader
 			String line; // string line for the save file
 			String[] lineArray; // line for different states
 			while ((line = br.readLine()) != null) { // read the file
 				lineArray = line.split(","); // save the states
 				if (lineArray.length == 1) { // if the array line array is one
-					currentPlayer = Integer.parseInt(line); // that is the
-															// player state
+					switch (counter) {
+					case 0:
+						a = line;
+						break;
+					case 1:
+						b = line;
+						break;
+					case 2:;
+						currentPlayer = Integer.parseInt(line);
+						break;
+					}
+					counter++;
 				} else { // else
 					for (int i = 0; i < gamePieces.length; i++) { // loop
 																	// through
@@ -101,12 +115,19 @@ public class NewGame extends ScreenScene {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		ai = Boolean.parseBoolean(a);
+		if (ai){
+			setupAI();
+			AI.setColor(Boolean.parseBoolean(b));
+			AI.updatePieces(gamePieces);
+		}
 		System.out.println(currentPlayer); // print out the current player
 		if (currentPlayer == 0) { // retuns what the player is
 			redTurn();
 		} else {
 			blueTurn();
 		}
+		isSetup();
 
 	}
 
@@ -200,6 +221,7 @@ public class NewGame extends ScreenScene {
 														// amount of pieces
 			if (gamePieces[i].getSetupPhase()) { // if the game pieces is the
 													// set phase
+				setup = " --- SETUP PHASE";
 				return true; // return true
 			}
 		}
@@ -210,7 +232,7 @@ public class NewGame extends ScreenScene {
 		int gameMove;
 		if (ai) {
 
-			AI.updateBoard(gamePieces);
+			AI.updatePieces(gamePieces);
 		}
 		if (!isSetup()) {
 			if (ai) {
@@ -352,7 +374,7 @@ public class NewGame extends ScreenScene {
 		if (isAITurn()) {
 			System.out.println("IS AI Turn");
 			setPieces(AI.makeMove());
-		
+
 			System.out.println(getGameMove());
 			switch (getGameMove()) {
 			case 4: // case 5
@@ -421,7 +443,7 @@ public class NewGame extends ScreenScene {
 		if (isAITurn()) {
 			System.out.println("IS AI Turn");
 			setPieces(AI.makeMove());
-			
+
 			System.out.println(getGameMove());
 			switch (getGameMove()) {
 			case 5: // case 5
@@ -612,8 +634,23 @@ public class NewGame extends ScreenScene {
 																					// a
 																					// new
 																					// file
-			String s = Integer.toString(currentPlayer); // int converted into
-														// string
+			String s = Boolean.toString(ai);
+			bw.write(s); // write the string s represents whether or not the
+							// match is against the AI
+			bw.newLine(); // new line
+			if (ai) {
+				s = Boolean.toString(AI.getColor());
+				bw.write(s); // write the string s represents whether or not the
+								// match is against the AI
+				bw.newLine(); // new line
+			} else {
+				s = "-1";
+				bw.write(s); // write the string s represents whether or not the
+								// match is against the AI
+				bw.newLine(); // new line
+			}
+			s = Integer.toString(currentPlayer); // int converted into
+													// string
 			bw.write(s); // write the string s repersents the current player
 			bw.newLine(); // new line
 			for (int i = 0; i < gamePieces.length; i++) { // iterate over the

@@ -46,14 +46,26 @@ public class MainMenu extends ScreenScene{
 
 	}
 	@Override
-	protected void addButtons() {				
+	protected void addButtons() {	
+		Button playAI = new Button("PLAY COMPUTER");			//new button for play game
+		playAI.setOnAction(new EventHandler<ActionEvent>() {			//start the action event 
+		    @Override public void handle(ActionEvent e) {			//javafx event handler
+		        currentState = 15;								//current state is 1
+		    }
+		});
+		playAI.setLayoutX(340 + 80 - 2.5);			//set the layout for the button shape size and font 
+		playAI.setLayoutY(135);
+		playAI.setMinHeight(50);
+		playAI.setMinWidth(150);
+		playAI.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
+
 		Button play = new Button("PLAY GAME");			//new button for play game
 		play.setOnAction(new EventHandler<ActionEvent>() {			//start the action event 
 		    @Override public void handle(ActionEvent e) {			//javafx event handler
 		        currentState = 1;								//current state is 1
 		    }
 		});
-		play.setLayoutX(340 - 2.5);			//set the layout for the button shape size and font 
+		play.setLayoutX(340 - 80 - 2.5);			//set the layout for the button shape size and font 
 		play.setLayoutY(135);
 		play.setMinHeight(50);
 		play.setMinWidth(150);
@@ -93,6 +105,7 @@ public class MainMenu extends ScreenScene{
 		exit.setMinWidth(150);
 		exit.setStyle("-fx-padding: 8 15 15 15; -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;-fx-background-radius: 8;-fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );-fx-font-weight: bold;-fx-font-size: 1.1em;");
 		this.getChildren().add(play);
+		this.getChildren().add(playAI);
 		this.getChildren().add(load);
 		this.getChildren().add(set);
 		this.getChildren().add(exit);

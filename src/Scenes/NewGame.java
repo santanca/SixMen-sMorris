@@ -46,9 +46,8 @@ public class NewGame extends ScreenScene {
 
 	public NewGame(boolean ai) { // new game method
 		this.ai = ai;
-	
+
 		resetBoard(ai); // resets the board
-		
 
 	}
 
@@ -125,7 +124,7 @@ public class NewGame extends ScreenScene {
 		if (AI == null) {
 			return false;
 		} else {
-			if (AI.getColor() &&  (currentState == 8 || currentState == 11)) {
+			if (AI.getColor() && (currentState == 8 || currentState == 11)) {
 				return true;
 			} else if (!AI.getColor() && (currentState == 9 || currentState == 10)) {
 				return true;
@@ -160,6 +159,7 @@ public class NewGame extends ScreenScene {
 				t.setDisable(true); // enable the red piece
 			}
 		}
+
 	}
 
 	private void blueMill() {
@@ -207,72 +207,66 @@ public class NewGame extends ScreenScene {
 	}
 
 	public void animate() {
-		if (ai){
+		int gameMove;
+		if (ai) {
 
 			AI.updateBoard(gamePieces);
 		}
-		if (currentState == 11) { // if the state is 11
+		if (!isSetup()) {
+			if (ai) {
+
+				AI.setSetup(false);
+			}
+			finishSetup();
+			gameMove = gameLogic.validMove(gamePieces, 1);
+		} else {
+			if (ai) {
+
+				AI.setSetup(true);
+			}
+			gameMove = gameLogic.validMove(gamePieces, 0);
+		}
+		if (currentState == 11) { // if the state is 11 (RED HAS A MILL)
 			if (!checkRemove()) { // if not remove check is true
 				removeRemove(); // remove remove
-				setGameStateText("Blue Player's Turn: Drag a Piece" + setup); // display
 				blueTurn(); // blue turn
 				setMovedFalse(); // set the moved false
 				gameLogic.setNewState(gamePieces); // new game state using
-			} else {
-				if (isAITurn()) {
-					gamePieces = AI.removePiece();
-					gameLogic.setNewState(gamePieces);
+				switch (gameMove) {
+				case 2:
+					redWins();
+					break;
 				}
 			}
-		} else if (currentState == 10) {
+		} else if (currentState == 10) { // BLUE HAS A MILL
 			if (!checkRemove()) {
 				removeRemove();
-				setGameStateText("Red Player's Turn: Drag a Piece" + setup);
 				redTurn();
 				setMovedFalse();
 				gameLogic.setNewState(gamePieces);
-			} else {
-				if (isAITurn()) {
-					gamePieces = AI.removePiece();
-					setPieces(gamePieces);
-					gameLogic.setNewState(gamePieces);
+				switch (gameMove) {
+				case 3:
+					blueWins();
+					break;
 				}
+
 			}
 		} else {
-			int gameMove;
-			if (!isSetup()) {
-				if (ai){
-
-					AI.setSetup(false);
-				}
-				finishSetup();
-				gameMove = gameLogic.validMove(gamePieces, 1);
-			} else {
-				if (ai){
-
-					AI.setSetup(true);
-				}
-				gameMove = gameLogic.validMove(gamePieces, 0);
-			}
-
-			
 			if (checkMoves()) {
 				switch (gameMove) {
 				case 0:
 					switch (currentState) {
 					case 8:
-						setGameStateText("Blue Player's Turn: Drag a Piece" + setup);
 						blueTurn();
 						setMovedFalse();
+						gameLogic.setNewState(gamePieces);
 						break;
 					case 9: // case 9
-						setGameStateText("Red Player's Turn: Drag a Piece" + setup); // display
 						redTurn(); // return red
 						setMovedFalse(); // set moved false
 						gameLogic.setNewState(gamePieces); // set new state with
 															// the game logic
 															// and pieces
-						
 						break;
 					}
 					break;
@@ -283,12 +277,11 @@ public class NewGame extends ScreenScene {
 														// state
 					break;
 				case 2: // case 2
-					setGameStateText("RED PLAYER WINS"); // display message
-					disableAll(); // disable all end the game
+					redWins();
+
 					break;
 				case 3: // case 3
-					setGameStateText("BLUE PLAYER WINS"); // display message
-					disableAll(); // disable all end game
+					blueWins();
 					break;
 				case 4: // case 4
 					redMill(); // mill red
@@ -298,11 +291,32 @@ public class NewGame extends ScreenScene {
 				case 5: // case 5
 					blueMill(); // mill blue
 					setGameStateText("REMOVE A RED PIECE: Drag piece to one of the red starting circles"); // display
-					currentState = 10; // current state is 10
+					currentState = 10; // current state is 11
 					break; // break
 				}
 			}
 		}
+	}
+
+	private int getGameMove() {
+		int gameMove = 0;
+		if (!isSetup()) {
+
+			gameMove = gameLogic.validMove(gamePieces, 1);
+		} else {
+			gameMove = gameLogic.validMove(gamePieces, 0);
+		}
+		return gameMove;
+	}
+
+	private void blueWins() {
+		setGameStateText("BLUE PLAYER WINS!"); // display message
+		disableAll(); // disable all end game
+	}
+
+	private void redWins() {
+		setGameStateText("RED PLAYER WINS!"); // display message
+		disableAll(); // disable all end the game
 	}
 
 	public Piece[] getGamePieces() {
@@ -325,6 +339,7 @@ public class NewGame extends ScreenScene {
 	}
 
 	protected void redTurn() { // reds turn
+		setGameStateText("Red Player's Turn: Drag a Piece" + setup);
 		currentState = 8; // current state is 8
 		currentPlayer = 0; // player is 0
 		for (Piece t : gamePieces) { // loop through the gamepieces
@@ -335,12 +350,25 @@ public class NewGame extends ScreenScene {
 			}
 		}
 		if (isAITurn()) {
+			System.out.println("IS AI Turn");
 			setPieces(AI.makeMove());
-			gameLogic.setNewState(gamePieces);
-			
-			blueTurn(); // return red
-			setGameStateText("Blue Player's Turn: Drag a Piece" + setup);
-			setMovedFalse();
+		
+			System.out.println(getGameMove());
+			switch (getGameMove()) {
+			case 4: // case 5
+				setGameStateText("REMOVE A BLUE PIECE: Drag piece to one of the red starting circles"); // display
+				setPieces(AI.removePiece());
+				switch (getGameMove()) {
+				case 2:
+					redWins();
+				}
+				removeRemove();
+			default:
+				gameLogic.setNewState(gamePieces);
+				blueTurn(); // return red
+				setMovedFalse();
+				break;
+			}
 		}
 	}
 
@@ -380,6 +408,7 @@ public class NewGame extends ScreenScene {
 	}
 
 	protected void blueTurn() {
+		setGameStateText("Blue Player's Turn: Drag a Piece" + setup);
 		currentState = 9; // current state is 9
 		currentPlayer = 1; // current player is 1
 		for (Piece t : gamePieces) { // loop through the amount of pieces
@@ -390,12 +419,25 @@ public class NewGame extends ScreenScene {
 			}
 		}
 		if (isAITurn()) {
+			System.out.println("IS AI Turn");
 			setPieces(AI.makeMove());
-			gameLogic.setNewState(gamePieces);
 			
-			redTurn(); // return red
-			setGameStateText("Red Player's Turn: Drag a Piece" + setup);
-			setMovedFalse();
+			System.out.println(getGameMove());
+			switch (getGameMove()) {
+			case 5: // case 5
+				setPieces(AI.removePiece());
+				switch (getGameMove()) {
+				case 3:
+					blueWins();
+				}
+				removeRemove();
+			default:
+				gameLogic.setNewState(gamePieces);
+				redTurn(); // return red
+				setGameStateText("Red Player's Turn: Drag a Piece" + setup);
+				setMovedFalse();
+				break;
+			}
 		}
 	}
 
@@ -404,27 +446,23 @@ public class NewGame extends ScreenScene {
 		this.getChildren().add(text); // get childern and add text
 		gamePieces = new Piece[16 + 12];
 		setBoard();
-		gamePieces[0] = new Piece(190, 90, 0); // set the game pieces on the
+		gamePieces[0] = new Piece(190, 90, 0); // set the game pieces on the //
 												// board
 		gamePieces[1] = new Piece(390, 90, 1);
 		gamePieces[2] = new Piece(590, 90, 2);
-		gamePieces[3] = new Piece(590, 290, 3); // set the game pieces on the
+		gamePieces[3] = new Piece(590, 290, 3); // set the game pieces on the //
 												// board
 		gamePieces[4] = new Piece(590, 490, 4);
-
 		gamePieces[5] = new Piece(390, 490, 5);
 		gamePieces[6] = new Piece(190, 490, 6);
 		gamePieces[7] = new Piece(190, 290, 7);
-
 		gamePieces[8] = new Piece(290, 190, 8);
-		gamePieces[9] = new Piece(390, 190, 9); // set the game pieces on the
+		gamePieces[9] = new Piece(390, 190, 9); // set the game pieces on the //
 												// board
 		gamePieces[10] = new Piece(490, 190, 10);
 		gamePieces[11] = new Piece(490, 290, 11);
-
 		gamePieces[12] = new Piece(490, 390, 12);
 		gamePieces[13] = new Piece(390, 390, 13);
-
 		gamePieces[14] = new Piece(290, 390, 14);
 		gamePieces[15] = new Piece(290, 290, 15); // set the game pieces on the
 													// board
@@ -451,12 +489,10 @@ public class NewGame extends ScreenScene {
 		}
 		if (Math.random() > 0.5) { // random numvber less than 0.5 reds turn
 			redTurn();
-			setGameStateText("Red Player's Turn: Drag a Piece" + setup); // message
-			
+
 		} else {
 			blueTurn(); // else blues turn
-			setGameStateText("Blue Player's Turn: Drag a Piece" + setup);
-	
+
 		}
 	}
 

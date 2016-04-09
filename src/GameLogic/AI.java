@@ -79,27 +79,19 @@ public class AI {
 			currentGame[index].setSetup(false);
 			currentGame[index].setMoved(false);
 			index2 = 0 + (int) (Math.random() * ((15 - 0) + 1));
-			System.out.println(index2);
-			System.out.println(setup);
 			if (color) {
 				while (!currentGame[index2].isEmpty()) {
 					index2 = 0 + (int) (Math.random() * ((15 - 0) + 1));
-					System.out.println(index2);
 				}
-				System.out.println(index2);
 				currentGame[index2].setColor('R');
 				currentGame[index2].setMoved(true);
-				System.out.println("Color is :" + currentGame[index2].getColor());
 			} else {
 				while (!currentGame[index2].isEmpty()) {
 					index2 = 0 + (int) (Math.random() * ((15 - 0) + 1));
-					System.out.println(index2);
 				}
-				System.out.println(index2);
 				currentGame[index2].setColor('B');
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(setupCounter);
-				System.out.println("Color is :" + currentGame[index2].getColor());
 			}
 		} else {
 			index = compPieces.get(r.nextInt(compPieces.size()));
@@ -187,8 +179,6 @@ public class AI {
 					// valid moves are +/- 1
 					
 				}
-				System.out.println("Index  : " + index);
-				System.out.println("Index 2: " + index2);
 				if (currentGame[index2].isEmpty()) validMove = true;
 			}
 			currentGame[index].setColor(' ');
@@ -209,6 +199,15 @@ public class AI {
 	}
 
 	public Piece[] removePiece() {
+		updatePieces(currentGame);
+		int index = playerPieces.get(r.nextInt(playerPieces.size()));
+		currentGame[index].setColor(' ');
+		currentGame[index].setSetup(false);
+		currentGame[index].setMoved(false);
+		currentGame[index].setRemovePiece(true);
+		currentGame[index].setPrevLoc(index);
+		updatePieces(currentGame);
+		System.out.println("Removed Piece :" + index);
 		return currentGame;
 	}
 

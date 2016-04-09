@@ -7,14 +7,14 @@ import Buttons.Piece;
 
 public class AI {
 	private boolean color; // true is red, false is blue
-	private Piece[] currentGame;
-	private ArrayList<Integer> compPieces, playerPieces;
-	private boolean setup;
+	private Piece[] currentGame;			//an array of pieces for the current game state
+	private ArrayList<Integer> compPieces, playerPieces;	//list of integer arrays for the computer and user
+	private boolean setup;			
 	private int setupCounter = 0;
 	private boolean isTurn;
-	Random r = new Random();
+	Random r = new Random();		//random varaible r
 
-	public AI(boolean color, Piece[] currentGame) {
+	public AI(boolean color, Piece[] currentGame) {		//constructor that sets the values of color and sets the counter and current game also updates the pieces
 		this.color = color;
 		if (color) {
 			setupCounter = 16;
@@ -25,14 +25,14 @@ public class AI {
 		updatePieces(currentGame);
 	}
 
-	public void setColor(boolean color) {
+	public void setColor(boolean color) {		//setter that sets the color
 		this.color = color;
 	}
 
-	private boolean checkIfValidMoves() {
-		updatePieces(currentGame);
-		for (int index : compPieces) {
-			if (index == 15) {
+	private boolean checkIfValidMoves() {		//checks if any valid moves are possible to make
+		updatePieces(currentGame);				//updates the current game board
+		for (int index : compPieces) {			//loop through the amount of compieces
+			if (index == 15) {	
 				// valid moves are -7, -1, - 8
 				if (currentGame[index - 7].isEmpty() || currentGame[index - 1].isEmpty()
 						|| currentGame[index - 8].isEmpty()) {
@@ -79,19 +79,19 @@ public class AI {
 		return false;
 	}
 
-	public void updatePieces(Piece[] gamePieces) {
-		currentGame = gamePieces;
-		compPieces = new ArrayList<Integer>();
-		playerPieces = new ArrayList<Integer>();
-		for (int i = 0; i < currentGame.length; i++) {
+	public void updatePieces(Piece[] gamePieces) {			//updates the game board
+		currentGame = gamePieces;							//sets the game pieces to the current game
+		compPieces = new ArrayList<Integer>();				//intializes a new array list for the computer
+		playerPieces = new ArrayList<Integer>();			//intializes a new array list for the player
+		for (int i = 0; i < currentGame.length; i++) {		//loops through the amount of pieces if the color is true
 			if (color) {
-				if (currentGame[i].getColor() == 'R') {
+				if (currentGame[i].getColor() == 'R') {				//if the color of the piece is red add it to the computer piece
 					compPieces.add(i);
-				} else if (currentGame[i].getColor() == 'B') {
+				} else if (currentGame[i].getColor() == 'B') {			//if the color of thepiece is blue add it to the player piece
 					playerPieces.add(i);
 				}
-			} else {
-				if (currentGame[i].getColor() == 'B') {
+			} else {											//else 
+				if (currentGame[i].getColor() == 'B') {			//if the color is blue add one to the compieces or if the color is red add one to the player piece
 					compPieces.add(i);
 				} else if (currentGame[i].getColor() == 'R') {
 					playerPieces.add(i);
@@ -101,16 +101,16 @@ public class AI {
 	}
 
 	public void setSetup(boolean setup) {
-		this.setup = setup;
+		this.setup = setup;							//setter that sets the value of setup
 	}
 
 
-	private void checkSetup() {
-		if (color && setup) {
-			if (setupCounter >= 16 + 6)
+	private void checkSetup() {			//checks the setup
+		if (color && setup) {					//if color and setup are true
+			if (setupCounter >= 16 + 6)			//if the setupcounter is greater than or equal to 22 make setup false
 				setup = false;
-		} else if (setup) {
-			if (setupCounter >= 16 + 12)
+		} else if (setup) {						//else if setup is true
+			if (setupCounter >= 16 + 12)		//if the setupcounter is greater than or equal to 28 setup is false
 				setup = false;
 		}
 	}
@@ -143,9 +143,9 @@ public class AI {
 		} else if(checkIfValidMoves()) {
 			index = compPieces.get(r.nextInt(compPieces.size()));
 			index2 = index - 1;
-			boolean validMove = false;
-			while (!validMove) {
-				index = compPieces.get(r.nextInt(compPieces.size()));
+			boolean validMove = false;				//set valid move to false			
+			while (!validMove) {					//while loop loops through and finds any invalid moves
+				index = compPieces.get(r.nextInt(compPieces.size()));	//index for the computer pieces
 				int rand = 0 + (int) (Math.random() * ((2) + 1));
 				if (index == 15) {
 					switch (rand) {
@@ -213,7 +213,7 @@ public class AI {
 						break;
 					}
 					// valid moves are + 1 and + 7
-				} else {
+				} else {				
 					rand = 0 + (int) (Math.random() * ((1) + 1));
 					switch (rand) {
 					case 0:
@@ -226,48 +226,48 @@ public class AI {
 					// valid moves are +/- 1
 
 				}
-				if (currentGame[index2].isEmpty())
+				if (currentGame[index2].isEmpty())		//if the current game state is empty
 					validMove = true;
 			}
 			currentGame[index].setColor(' ');
 			currentGame[index].setSetup(false);
 			currentGame[index].setMoved(false);
-			if (color) {
+			if (color) {							//if color is true then set color of pice to red and move to index
 				currentGame[index2].setColor('R');
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(index);
-			} else {
+			} else {									//else set the color to blue and move to the index
 				currentGame[index2].setColor('B');
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(index);
 			}
 		}
-		return currentGame;
+		return currentGame;				//return the current game
 
 	}
 
 	public Piece[] removePiece() {
 		updatePieces(currentGame);
-		int index = playerPieces.get(r.nextInt(playerPieces.size()));
-		currentGame[index].setColor(' ');
+		int index = playerPieces.get(r.nextInt(playerPieces.size()));	//get the index of where you want to remove the piece
+		currentGame[index].setColor(' ');		//change value to zero AKA a space character
 		currentGame[index].setSetup(false);
 		currentGame[index].setMoved(false);
-		currentGame[index].setRemovePiece(true);
-		currentGame[index].setPrevLoc(index);
-		updatePieces(currentGame);
-		System.out.println("Removed Piece :" + index);
-		return currentGame;
+		currentGame[index].setRemovePiece(true);		//remove the piece
+		currentGame[index].setPrevLoc(index);	
+		updatePieces(currentGame);			//update pieces using current game state
+		System.out.println("Removed Piece :" + index);	
+		return currentGame;						//return the currentgame
 	}
 
 	public boolean getColor() {
-		return color;
+		return color;				//return the color 
 	}
 
-	public void changeTurn() {
-		if (isTurn) {
-			isTurn = false;
+	public void changeTurn() {			
+		if (isTurn) {				//if isturn is true
+			isTurn = false;			//change it to false
 		} else {
-			isTurn = true;
+			isTurn = true;			//otherwise change istrue to true
 		}
 	}
 

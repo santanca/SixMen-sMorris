@@ -11,8 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Piece extends Circle { // piece class extends Circle class
-	private char color; // private varaibles needed for the impletentation of
-						// the adt
+	private char color; // 'B' = blue, 'R' = red, ' ' = black
 	private boolean empty;
 	private int prevLoc, currentLoc;
 	private boolean moved, removePiece, setupPhase;
@@ -97,7 +96,6 @@ public class Piece extends Circle { // piece class extends Circle class
 					prevLoc = currentLoc;
 					removePiece = false;
 				}
-
 				event.setDropCompleted(success);
 				event.consume();
 			}

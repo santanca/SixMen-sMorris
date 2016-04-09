@@ -42,7 +42,7 @@ public class Graphics extends Application {
 					currentScene.animate();
 					break;
 				case 1: // STARTS NEW GAME
-					currentScene = new NewGame();
+					currentScene = new NewGame(true);
 					primaryStage.setScene(currentScene.getScreen());
 					primaryStage.show();
 					currentState = 0;

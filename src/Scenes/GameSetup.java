@@ -1,7 +1,7 @@
 package Scenes;
 
 public class GameSetup extends NewGame {
-	public GameSetup() {									
+	public GameSetup() {
 		addButtons();												//add buttons 
 		finishSetup();												//finsh the setup
 		if (Math.random() > 0.5) {									//generate a random number if its greater than 0.5 

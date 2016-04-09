@@ -24,9 +24,62 @@ public class AI {
 		this.currentGame = currentGame;
 		updatePieces(currentGame);
 	}
-	public void setColor(boolean color){
+
+	public void setColor(boolean color) {
 		this.color = color;
 	}
+
+	public boolean checkIfValidMoves() {
+		updatePieces(currentGame);
+		int index2 = 0;
+		for (int index : compPieces) {
+			if (index == 15) {
+				// valid moves are -7, -1, - 8
+				if (currentGame[index - 7].isEmpty() || currentGame[index - 1].isEmpty()
+						|| currentGame[index - 8].isEmpty()) {
+					return true;
+				}
+			} else if (index == 7) {
+				// valid moves are -7, -1, + 8
+				if (currentGame[index - 7].isEmpty() || currentGame[index - 1].isEmpty()
+						|| currentGame[index + 8].isEmpty()) {
+					return true;
+				}
+			} else if (index % 2 == 1) {
+				if (index < 7) {
+					// valid moves are +/- 1 and + 8
+					if (currentGame[index + 1].isEmpty() || currentGame[index - 1].isEmpty()
+							|| currentGame[index + 8].isEmpty()) {
+						return true;
+					}
+				} else {
+					// valid moves are +/- 1 and - 8
+					if (currentGame[index + 1].isEmpty() || currentGame[index - 1].isEmpty()
+							|| currentGame[index - 8].isEmpty()) {
+						return true;
+					}
+				}
+			} else if (index == 0 || index == 8) {
+				// valid moves are + 1 and + 7
+				if (currentGame[index + 7].isEmpty() || currentGame[index + 1].isEmpty()) {
+					return true;
+				} 
+			} else {
+				// valid moves are +/- 1
+				if (currentGame[index + 1].isEmpty() || currentGame[index - 1].isEmpty()) {
+					return true;
+				}
+			}
+		}
+		System.out.println("NO VALID MOVES - COMPUTER LOSES");
+		for (int index : compPieces){
+			currentGame[index].setColor(' ');
+			currentGame[index].setSetup(false);
+			currentGame[index].setMoved(false);
+		}
+		return false;
+	}
+
 	public void updatePieces(Piece[] gamePieces) {
 		currentGame = gamePieces;
 		compPieces = new ArrayList<Integer>();
@@ -91,7 +144,7 @@ public class AI {
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(setupCounter);
 			}
-		} else {
+		} else if(checkIfValidMoves()) {
 			index = compPieces.get(r.nextInt(compPieces.size()));
 			index2 = index - 1;
 			boolean validMove = false;
@@ -160,7 +213,7 @@ public class AI {
 						index2 = index + 1;
 						break;
 					case 1:
-						index2 = index +7;
+						index2 = index + 7;
 						break;
 					}
 					// valid moves are + 1 and + 7
@@ -175,18 +228,19 @@ public class AI {
 						break;
 					}
 					// valid moves are +/- 1
-					
+
 				}
-				if (currentGame[index2].isEmpty()) validMove = true;
+				if (currentGame[index2].isEmpty())
+					validMove = true;
 			}
 			currentGame[index].setColor(' ');
 			currentGame[index].setSetup(false);
 			currentGame[index].setMoved(false);
-			if (color){
+			if (color) {
 				currentGame[index2].setColor('R');
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(index);
-			}else{
+			} else {
 				currentGame[index2].setColor('B');
 				currentGame[index2].setMoved(true);
 				currentGame[index2].setPrevLoc(index);
@@ -212,7 +266,6 @@ public class AI {
 	public boolean getColor() {
 		return color;
 	}
-
 
 	public void changeTurn() {
 		if (isTurn) {

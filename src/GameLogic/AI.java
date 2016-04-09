@@ -29,9 +29,8 @@ public class AI {
 		this.color = color;
 	}
 
-	public boolean checkIfValidMoves() {
+	private boolean checkIfValidMoves() {
 		updatePieces(currentGame);
-		int index2 = 0;
 		for (int index : compPieces) {
 			if (index == 15) {
 				// valid moves are -7, -1, - 8
@@ -105,9 +104,6 @@ public class AI {
 		this.setup = setup;
 	}
 
-	public void placePiece() {
-
-	}
 
 	private void checkSetup() {
 		if (color && setup) {
